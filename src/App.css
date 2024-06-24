@@ -1,28 +1,28 @@
-/* src/App.css */
-
 .App {
   text-align: center;
   font-family: Arial, sans-serif;
   padding: 20px;
-  background-color: #e7be0c; /* Add background color */
-  min-height: 100vh; /* Ensure the background covers the whole viewport */
+  background-color: #034024;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1; /* Ensure the main content is below the modal */
 }
 
 h1 {
   font-size: 2em;
   margin-bottom: 20px;
-  color: #333;
+  color: #f6f4f4;
 }
 
 .timer {
   font-size: 24px;
   margin-bottom: 20px;
-  color: #555;
+  color: #f50000;
 }
 
 .restart-button,
@@ -40,6 +40,20 @@ h1 {
 .restart-button:hover,
 .help-button:hover {
   background-color: #45a049;
+}
+
+.flip-all-button {
+  padding: 10px 20px;
+  background-color: #FF9800;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 20px 0; /* Add margin to separate from other buttons */
+}
+
+.flip-all-button:hover {
+  background-color: #FB8C00;
 }
 
 .game-board {
