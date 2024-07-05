@@ -1,15 +1,14 @@
+import React from 'react';
 import './Card.css';
 
-const Card = ({ garnish, isFlipped, onClick }) => {
+const Card = ({ garnish, isFlipped, onClick, listIndex }) => {
   return (
     <div className={`card ${isFlipped ? 'flipped' : ''}`} onClick={onClick}>
       <div className="front">
-        {/* Display the garnish text if flipped, otherwise display custom content */}
-        {isFlipped ? garnish : 'Click to Flip'}
+        {isFlipped ? `${garnish} (${listIndex + 1})` : 'boo'}
       </div>
       <div className="back">
-        {/* Display 'Front Content' on the back of the card */}
-        {isFlipped ? 'Click to Flip' : 'GG'}
+        {isFlipped ? ' ' : 'GG'}
       </div>
     </div>
   );

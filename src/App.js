@@ -10,21 +10,21 @@ const garnishes = [
   "Pineapple wedge and red cherry", "Mint Spring (Mojito)", "Lime wedge (Margarita)", "Orange Peel (Cosmopolitan)",
   "Half Orange Slice (Aperol Spritz)", "Pineapple Leaf (Yellow Bird)", "Basil Spring", "Mint Spring",
   "Three Blueberries", "Thyme Spring", "Lemon Twist", "Three Angostura Bitters", "Three Olives skewered",
-  "Amarena Cherry and Caramelized Pineapple Skewered", "Dehydrated Blood Orange Slices", "Three Thin Orange Slices", "Lime wedge (Corona)", "Half Orange Wheel (Blue Moon)"
+  "Amarena Cherry and Caramelized Pineapple Skewered", "Dehydrated Blood Orange Slices", "Three Thin Orange Slices", "Lime wedge (Corona)", "Half Orange Wheel (Blue Moon)","Two Amarena Cherries skewered"
 ];
 
 const drinks = [
   "Old Fashioned", "Hunt Box", "Carajillo", "Guarana", "Pineapple Mint Lemonade", "Paradise Spritz", "Brazilian Limonada",
   "Pina Colada", "Mojito", "Margarita", "Clean Cosmopolitan", "Aperol Spritz", "Yellow Bird", "Tequila Thyme", 
   "Super Fruit Lemonade", "Samba Squeeze", "Gold Rush", "Clean Cucumber Martini", "Clean Sour",
-  "Classic Martini", "Caramelized Pineapple Old Fashion", "Blood Orange Manhattan", "Strawberry Hibiscus Caipirinha", "Corona", "Blue Moon"
+  "Classic Martini", "Caramelized Pineapple Old Fashion", "Blood Orange Manhattan", "Strawberry Hibiscus Caipirinha", "Corona", "Blue Moon","Classic Manhattan"
 ];
 
 const levels = {
   1: 4,  // Tutorial level with 4 cards
-  2: 8,
-  3: 12,
-  4: 24,
+  2: 10,
+  3: 26,
+  4: 38,
   5: garnishes.length * 2  // All pairs
 };
 
@@ -46,17 +46,17 @@ const App = () => {
   };
 
   const initializeCards = useCallback(() => {
+    // Create pairs of garnishes and drinks
     const pairs = garnishes.map((garnish, index) => [garnish, drinks[index]]);
+    
+    // Shuffle the pairs
     shuffleArray(pairs);
-
-    let selectedPairs;
-    if (level === 5) {
-      selectedPairs = pairs;
-    } else {
-      selectedPairs = pairs.slice(0, levels[level] / 2);
-    }
-
+    
+    // Flatten the pairs back into a single array and slice according to level
+    const selectedPairs = pairs.slice(0, levels[level] / 2);
     const initialCards = selectedPairs.flat();
+    
+    // Shuffle the resulting cards
     shuffleArray(initialCards);
     
     return initialCards;
@@ -140,15 +140,20 @@ const App = () => {
     <div className="App">
       <h1>Garnish Game</h1>
       <div className="timer">Time: {time}s</div>
-      {level === 5 && flipAllUsed < 2 && (
+      {level === 4 && flipAllUsed < 2 && (
         <button className="flip-all-button" onClick={handleFlipAll}>Flip All Cards</button>
       )}
-      {level === 4 && flipAllUsed < 3 && (
+      {level === 5 && flipAllUsed < 3 && (
         <button className="flip-all-button" onClick={handleFlipAll}>Flip All Cards</button>
       )}
       <button className="restart-button" onClick={handleRestart}>Restart</button>
-      {hasWon && <Confetti />}
-      <button className="help-button" onClick={() => setIsHelpOpen(true)}>Help</button>
+      {hasWon && (
+        <Confetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+        />
+      )}
+      <button className="help-button" onClick={() => setIsHelpOpen(true)}>Click Me/Help</button>
       {isHelpOpen && (
         <HelpModal
           onClose={() => setIsHelpOpen(false)}
@@ -164,6 +169,7 @@ const App = () => {
             garnish={card}
             isFlipped={flippedCards.includes(index) || matchedCards.includes(index)}
             onClick={() => handleCardClick(index)}
+            listIndex={garnishes.includes(card) ? garnishes.indexOf(card) : drinks.indexOf(card)}
           />
         ))}
       </div>
